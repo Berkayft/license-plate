@@ -12,4 +12,6 @@ const licensescripte = new schema({
     }
 });
 
-module.exports = licensescripte;
+const licenseModel = mongoose.model('LicenseModel' , licensescripte);
+
+module.exports = licenseModel;

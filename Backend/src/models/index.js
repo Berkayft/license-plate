@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-const license = require('./license');
-require('.dotenv').config();
+const licenseModel = require('./license');
+require('dotenv').config();
 
 
 async function DBconnect() {
     try {
-        await mongoose.connect(process.env.DBRUI);
+        await mongoose.connect(process.env.DBURI);
     } catch (err){
         console.log(err);
     }
@@ -14,5 +14,5 @@ async function DBconnect() {
 DBconnect();
 
 module.exports = {
-    license
+    licenseModel
 }

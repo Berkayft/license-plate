@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const mainRouter = require('./routes/main');
+const getlicences = require('./routes/getlicences');
 const cors = require('cors');
 
 app.set('views', path.join(__dirname, 'views'));
@@ -24,6 +25,7 @@ app.get('/' , (req , res) => {
 })
 
 app.use('/' , mainRouter);
+app.use('/' , getlicences);
 
 
 

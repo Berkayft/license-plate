@@ -6,7 +6,19 @@ const licensescripte = new schema({
         type:String,
         required:true,
     },
-    date:{
+    month:{
+        type:String,
+        required:true
+    },
+    day:{
+        type:String,
+        required:true
+    },
+    hour:{
+        type:String,
+        required:true
+    },
+    minute:{
         type:String,
         required:true
     }

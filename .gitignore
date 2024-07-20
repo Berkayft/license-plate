@@ -1,3 +1,5 @@
 /Backend/node_modules
 /Backend/.env
+/Ai/yolov8n.pt
+/Ai/output
 .DS_Store

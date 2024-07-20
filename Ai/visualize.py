@@ -19,10 +19,8 @@ def draw_border(img, top_left, bottom_right, color=(0, 255, 0), thickness=10, li
     return img
 
 
-# CSV dosyasından sonuçları yükle
 results = pd.read_csv('./test_interpolated.csv')
 
-# Video dosyasını yükle
 video_path = '2103099-uhd_3840_2160_30fps.mp4'
 cap = cv2.VideoCapture(video_path)
 
@@ -32,7 +30,6 @@ width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 out = cv2.VideoWriter('new.mp4', fourcc, fps, (width, height))
 
-# Plaka bilgilerini saklayacak liste
 license_plate_data = []
 
 license_plate = {}
@@ -70,14 +67,12 @@ while ret:
             draw_border(frame, (int(car_x1), int(car_y1)), (int(car_x2), int(car_y2)), (0, 255, 0), 25,
                         line_length_x=200, line_length_y=200)
 
-            # Plaka çerçevesini çiz
             x1, y1, x2, y2 = ast.literal_eval(
                 df_.iloc[row_indx]['license_plate_bbox'].replace('[ ', '[').replace('   ', ' ').replace('  ',
                                                                                                         ' ').replace(
                     ' ', ','))
             cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 0, 255), 12)
 
-            # Plaka kesimini al
             license_crop = license_plate[df_.iloc[row_indx]['car_id']]['license_crop']
             H, W, _ = license_crop.shape
             try:
@@ -98,7 +93,6 @@ while ret:
                             (0, 0, 0),
                             17)
 
-                # Plaka bilgilerini ve tarih-saat bilgisini listeye ekle
                 current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 license_plate_data.append({
                     'frame_nmr': frame_nmr,
@@ -112,12 +106,9 @@ while ret:
         out.write(frame)
         frame = cv2.resize(frame, (1280, 720))
 
-        # cv2.imshow('frame', frame)
-        # cv2.waitKey(0)
 
 out.release()
 cap.release()
 
-# Listeyi CSV dosyasına yaz
 license_plate_df = pd.DataFrame(license_plate_data)
 license_plate_df.to_csv('license_plate_data.csv', index=False)

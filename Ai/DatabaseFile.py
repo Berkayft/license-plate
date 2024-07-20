@@ -1,26 +1,27 @@
-import csv
+import pandas as pd
 
+input_file = 'license_plate_data.csv'
+output_file = 'output_file.csv'
 
-input_file = 'test.csv'
+df = pd.read_csv(input_file)
 
-output_file = 'importFile.csv'
+unique_records = []
 
-selected_indices = [5]
+seen_car_ids = set()
+seen_license_numbers = set()
 
-added_values = []
+for index, row in df.iterrows():
+    car_id = row['car_id']
+    license_number = row['license_plate_number']
 
-with open(input_file, mode='r', newline='') as infile:
-    reader = csv.reader(infile)
-    with open(output_file, mode='w', newline='') as outfile:
-        writer = csv.writer(outfile)
-        for row in reader:
-            try:
-                selected_row = [row[i] for i in selected_indices]
-                if selected_row not in added_values:
-                    writer.writerow(selected_row)
-                    added_values.append(selected_row)
-            except IndexError:
-                print(f"Bir satırda {selected_indices[0]} indeksli eleman yok.")
+    if car_id not in seen_car_ids and license_number not in seen_license_numbers:
+        unique_records.append(row)
+        seen_car_ids.add(car_id)
+        seen_license_numbers.add(license_number)
 
-print(f'{output_file} dosyasına {selected_indices} indekslerindeki elemanlar kaydedildi.')
+df_unique = pd.DataFrame(unique_records)
+
+df_unique.to_csv(output_file, index=False)
+
+print(f"İşlem tamamlandı. Sonuç {output_file} dosyasına kaydedildi.")
 
